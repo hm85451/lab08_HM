@@ -14,6 +14,7 @@ template <class T>
 SimpleList<T>::~SimpleList()
 {
     delete[] elements;
+    delete elements;
 }
 
 
