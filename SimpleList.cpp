@@ -7,14 +7,24 @@ template <class T>
 SimpleList<T>::SimpleList()
 {
     numElements = 0;
-    elements = new T[10];
+    elements = new T[CAPACITY];
 }
 
 template <class T>
 SimpleList<T>::~SimpleList()
 {
+    for (int i = 0; i<numElements;i++)
+    {
+        if (is_pointer<T>::value)
+            if (elements[i]!=NULL)
+            {
+                T temp = elements[i];
+                delete temp;
+            }
+    }
     delete[] elements;
 }
+
 
 
 template <class T>
@@ -70,10 +80,22 @@ void SimpleList<T>::remove(int index) throw (InvalidIndexException, EmptyListExc
         throw EmptyListException();
     if (index >= numElements || index<0 )
         throw InvalidIndexException();
-        
-    for (int i = index; i<numElements-1;i++)
+    
+    if (is_pointer<T>::value)
     {
+        delete elements[index];
+        for (int i = index; i<numElements-1;i++)
+        {
             elements[i] = elements[i+1];
+        }
+
+    }
+    else
+    {
+        for (int i = index; i<numElements-1;i++)
+        {
+            elements[i] = elements[i+1];
+        }
     }
     //elements[numElements-1] = nullptr;
     numElements--;
