@@ -13,20 +13,15 @@ SimpleList<T>::SimpleList()
 template <class T>
 SimpleList<T>::~SimpleList()
 {
-    for (int i = 0; i<numElements;i++)
+      for (int i = 0; i<numElements;i++)
+  if (is_pointer<T>::value) {
+        destroy(elements[i]);
+    }else
     {
-        if (is_pointer<T>::value)
-            if (elements[i]!=NULL)
-            {
-                T temp = elements[i];
-                delete temp;
-            }
+        destroy(elements[i]);
     }
     delete[] elements;
-    delete elements;
 }
-
-
 
 template <class T>
 T SimpleList<T>::at(int index) const throw (InvalidIndexException)
@@ -34,6 +29,14 @@ T SimpleList<T>::at(int index) const throw (InvalidIndexException)
     if (index>=numElements||index<0)
         throw InvalidIndexException();
     return elements[index];
+}
+
+template<class T>
+void SimpleList<T>::destroy(T element) {
+}
+template <class T>
+void SimpleList<T>::destroy(T* element) {
+	delete element;
 }
 
 template <class T>
@@ -82,23 +85,22 @@ void SimpleList<T>::remove(int index) throw (InvalidIndexException, EmptyListExc
     if (index >= numElements || index<0 )
         throw InvalidIndexException();
     
-    if (is_pointer<T>::value)
+     if (is_pointer<T>::value)
     {
-        delete elements[index];
+            destroy(elements[index]);
         for (int i = index; i<numElements-1;i++)
         {
             elements[i] = elements[i+1];
         }
 
-    }
-    else
+    }else
     {
+        destroy(elements[index]);
         for (int i = index; i<numElements-1;i++)
         {
             elements[i] = elements[i+1];
         }
     }
-    //elements[numElements-1] = nullptr;
     numElements--;
 }
 
