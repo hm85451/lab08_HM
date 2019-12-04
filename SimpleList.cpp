@@ -23,6 +23,7 @@ SimpleList<T>::~SimpleList()
             }
     }
     delete[] elements;
+    delete elements;
 }
 
 
