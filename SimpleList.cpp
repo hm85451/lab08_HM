@@ -3,6 +3,13 @@
 
 using namespace std;
 
+template<class T>
+void destroy(T element);
+
+template<class T>
+void destroy(T* element);
+
+
 template <class T>
 SimpleList<T>::SimpleList()
 {
@@ -32,12 +39,12 @@ T SimpleList<T>::at(int index) const throw (InvalidIndexException)
 }
 
 template<class T>
-void SimpleList<T>::destroy(T element) {
-}
+void destroy(T element) {
+};
 template <class T>
-void SimpleList<T>::destroy(T* element) {
+void destroy(T* element) {
 	delete element;
-}
+};
 
 template <class T>
 bool SimpleList<T>::empty() const
